@@ -1,0 +1,22 @@
+# Environnement
+.env
+.env.local
+*.env
+
+# Dépendances
+node_modules/
+__pycache__/
+*.pyc
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
