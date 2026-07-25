@@ -21,10 +21,14 @@ pipeline {
 
         stage('Test Application') {
             steps {
-                sh 'docker run -d -p 5001:5000 --name test-container ${IMAGE_NAME}:${IMAGE_TAG}'
+                sh 'docker run -d --name test-container ${IMAGE_NAME}:${IMAGE_TAG}'
                 sh 'sleep 10'
                 sh 'docker logs test-container'
-                sh 'curl -f http://localhost:5001/health || exit 1'
+                sh '''
+                    CONTAINER_IP=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" test-container)
+                    echo "IP du conteneur : $CONTAINER_IP"
+                    curl -f http://$CONTAINER_IP:5000/health
+                '''
                 sh 'docker stop test-container'
                 sh 'docker rm test-container'
             }
