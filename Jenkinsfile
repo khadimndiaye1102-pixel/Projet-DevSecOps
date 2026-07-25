@@ -36,7 +36,7 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                sh 'echo "Scan de securite a venir (Trivy)"'
+                sh 'trivy image --severity HIGH,CRITICAL --exit-code 0 --format table ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
     }
